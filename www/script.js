@@ -1,10 +1,15 @@
 var app = angular.module('myApp', ['onsen']);
+
 app.controller("AppCtrl", ["$scope", function($scope){
 
     ons.ready(function() {
         console.log("ons.ready() called");
         document.addEventListener("deviceready", function(e) {
-            Kii.initializeWithSite("77ad4dda", "248c4d2e04e82105bfeb90ea17da0ff4", KiiSite.JP);
+            // Kii Application info.
+            var appid = "77ad4dda";
+            var appkey = "248c4d2e04e82105bfeb90ea17da0ff4";
+            var site = KiiSite.JP;
+            Kii.initializeWithSite(appid, appkey, site);
         });
         document.addEventListener('pageinit', function(e) {
             var data = {};
@@ -16,8 +21,8 @@ app.controller("AppCtrl", ["$scope", function($scope){
                 console.log(ctx);
                 // Make label. (minutes.)
                 for (i=0; i<59; ++i) {
-                    if (i%5 === 0) {
-                        labels.push(i);
+                    if (i%10 === 0) {
+                        labels.push(i + "分");
                     } else {
                         labels.push("");
                     }
@@ -34,9 +39,11 @@ app.controller("AppCtrl", ["$scope", function($scope){
                 });
                 data.labels = labels;
                 data.datasets = dataSets;
-                new Chart(ctx).Line(data, Chart.defaults.Line);
-            }
-
+                Chart.defaults.global.scaleLabel =
+                function(valuePalyload) {
+                    return valuePalyload.value + "C";
+                };
+                new Chart(ctx).Line(data, Chart.defaults.Line);            }
         });
 
     });
@@ -143,7 +150,7 @@ app.controller("AppCtrl", ["$scope", function($scope){
         var query;
         bucket = $scope.thing.bucketWithName("temperatures");
         query = KiiQuery.queryWithClause();
-        query.setLimit(10);
+        query.setLimit(24);
         query.sortByDesc("_modified");
         bucket.executeQuery(query)
         .then(
@@ -183,6 +190,19 @@ app.controller("AppCtrl", ["$scope", function($scope){
                 });                
             }
         );
+    }
+
+    $scope.localTime = function (idString) {
+        var date;
+        var dateStr;
+        
+        // convert format to 2016-01-01T12:59:59Z
+        dateStr = idString.substring(0, 13);
+        dateStr += ":" + idString.substring(13,15);
+        dateStr += ":" + idString.substring(15,17);
+
+        date = new Date(dateStr);
+        return (date.getMonth() +1) + "月 " + date.getDate() + "日 " + (date.getHours() +1) + "時 ";
     }
 
 }]);

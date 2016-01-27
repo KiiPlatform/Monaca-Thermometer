@@ -1,6 +1,7 @@
 <ons-page id="hourly-temperature">
     <ons-toolbar>
-        <div class="center">Temperatures {{hourlyTemperaturesObject.getUUID()}}</div>
+        <div class="left"><ons-back-button>戻る</ons-back-button></div>
+        <div class="center">{{localTime(hourlyTemperaturesObject.getUUID())}}の温度</div>
     </ons-toolbar>
     <section style="padding: 8px">
         <canvas id="chart-area" width="300" height="300"/>

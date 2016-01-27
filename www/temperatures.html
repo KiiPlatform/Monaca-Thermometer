@@ -1,10 +1,11 @@
 <ons-page>
     <ons-toolbar>
-        <div class="center">Temperatures</div>
+        <div class="left"><ons-back-button>戻る</ons-back-button></div>
+        <div class="center">温度データ</div>
     </ons-toolbar>
     <section style="padding: 8px">
     <div ng-repeat="item in temperatureObjects track by $index">
-        <ons-list-item ng-click="loadTemperatures(item)">{{item.getUUID()}}</ons-list-item>
+        <ons-list-item ng-click="loadTemperatures(item)">{{localTime(item.getUUID())}}</ons-list-item>
     </div>
     </section>
 </ons-page>>

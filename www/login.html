@@ -1,15 +1,15 @@
 <ons-page>
     <ons-toolbar>
-        <div class="center">Login/ Sign UP</div>
+        <div class="center">ログイン・新規登録</div>
     </ons-toolbar>
     <section style="padding: 8px">
-        <div>Username:</div>
+        <div>ユーザー名</div>
         <input class="text-input" ng-model="loginName" type="text"/>
-        <div>Password:</div>
+        <div>パスワード</div>
         <input class="text-input" ng-model="password" type="password"/>
         <section style="padding: 8px">
-            <ons-button ng-click="login(loginName, password)">Login</ons-button>
-            <ons-button ng-click="signup(loginName, password)">Sign Up</ons-button>
+            <ons-button ng-click="login(loginName, password)">ログイン</ons-button>
+            <ons-button ng-click="signup(loginName, password)">新規登録</ons-button>
         </section>
     </section>
 </ons-page>

@@ -1,10 +1,11 @@
 <ons-page>
     <ons-toolbar>
-        <div class="center">Your thing information</div>
+        <div class="left"><ons-back-button>戻る</ons-back-button></div>
+        <div class="center">デバイス情報</div>
     </ons-toolbar>
     <section style="padding: 8px">
-        <div>Vendor Thing ID: {{thing.getVendorThingID()}}</div>
-        <div>Thing ID: {{thing.getThingID()}}</div>
-        <ons-button ng-click="listTemperatures()">View temperature data</ons-button>
+        <div>デバイス名: {{thing.getVendorThingID()}}</div>
+        <div>デバイスID: {{thing.getThingID()}}</div>
+        <ons-button ng-click="listTemperatures()">温度データを見る</ons-button>
     </section>
 </ons-page>

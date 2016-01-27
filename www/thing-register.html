@@ -1,11 +1,12 @@
 <ons-page>
     <ons-toolbar>
-        <div class="center">Setup your thing</div>
+        <div class="left"><ons-back-button>戻る</ons-back-button></div>
+        <div class="center">デバイス登録</div>
     </ons-toolbar>
     <section style="padding: 8px">
-        <div>Owner ID : {{user.getID()}}</div>
-        <div>Owner Name : {{user.getUsername()}}</div>
-        <div>Vendor Thing ID:</div>
+        <div>オーナーID : {{user.getID()}}</div>
+        <div>オーナー名 : {{user.getUsername()}}</div>
+        <div>オーナーとして登録するデバイス名:</div>
         <input class="text-input" ng-model="vendorThingID" type="text"/>
         <section style="padding: 8px">
             <ons-button ng-click="ownerRegistration(vendorThingID)">Submit</ons-button>
