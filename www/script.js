@@ -16,6 +16,7 @@ app.controller("AppCtrl", ["$scope", function($scope){
             var data = {};
             var dataSets = [];
             var labels = [];
+            var dummydata = [];
             var ctx;
             if (e.target.id == "hourly-temperature") {
                 ctx = document.getElementById("chart-area").getContext("2d");
@@ -28,7 +29,6 @@ app.controller("AppCtrl", ["$scope", function($scope){
                         labels.push("");
                     }
                 }
-                var dummydata[];
                 for (i=0; i<59; i++) {
                     dummydata.push(i);
                 }
@@ -43,7 +43,7 @@ app.controller("AppCtrl", ["$scope", function($scope){
                     // TODO: Step 7: 実際の温度データを設定しましょう。
                     // Step 6で温度のデータの配列が$scope.hourlyTemperatures
                     // に保持されています。
-                    data: dummydata;
+                    data: dummydata
                 });
                 data.labels = labels;
                 data.datasets = dataSets;
@@ -94,6 +94,17 @@ app.controller("AppCtrl", ["$scope", function($scope){
         // temperatures.htmlに遷移します。
         // 失敗したら、アラートを表示しましょう。
         var thing = $scope.thing;
+        
+        // ダミーデータ作成。この処理は削除します。
+        dummyObjects = [];
+        dummyObject = {}
+        dummyObject.getUUID = function() {
+            return "2016-01-01T000000Z";
+        }
+        dummyObjects.push(dummyObject);
+        $scope.temperatureObjects = dummyObjects;
+        // ダミーデータ作成終了
+        
         myNavigator.pushPage("temperatures.html");
     };
 
@@ -105,6 +116,8 @@ app.controller("AppCtrl", ["$scope", function($scope){
         // (Thingはdataフィールドに1分ごとの温度の配列を書き込んでいます。)
         // hourly-temperatures.htmlに遷移します。
         // 失敗したら、アラートを表示しましょう。
+        
+        $scope.hourlyTemperaturesObject = kiiObject;
         myNavigator.pushPage("hourly-temperatures.html");
     }
 
