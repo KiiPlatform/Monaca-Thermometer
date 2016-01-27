@@ -91,28 +91,6 @@ app.controller("AppCtrl", ["$scope", function($scope){
         );
     };
 
-    $scope.onclick = function() {
-        console.log("onclick() called");
-        KiiUser.authenticate("pass1234", "1234", {
-            success: function(user) {
-                ons.notification.alert({
-                    message: 'suc!',
-                    title: 'title',
-                    buttonLabel: 'OK',
-                    animation: 'default'
-                });
-            },
-            failure: function(user, error) {
-                ons.notification.alert({
-                    message: 'fail!' + error.message,
-                    title: 'title',
-                    buttonLabel: 'OK',
-                    animation: 'default'
-                });
-            }
-        });
-    };
-
     $scope.ownerRegistration = function(vendorThingID) {
         var user = $scope.user;
         KiiThing.registerOwnerWithVendorThingID(vendorThingID, user)
