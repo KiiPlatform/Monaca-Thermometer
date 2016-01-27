@@ -1,0 +1,10 @@
+<ons-page>
+    <ons-toolbar>
+        <div class="center">Temperatures</div>
+    </ons-toolbar>
+    <section style="padding: 8px">
+    <div ng-repeat="item in temperatureObjects track by $index">
+        <ons-list-item ng-click="loadTemperatures(item)">{{item.getUUID()}}</ons-list-item>
+    </div>
+    </section>
+</ons-page>>

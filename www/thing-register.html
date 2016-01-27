@@ -1,0 +1,14 @@
+<ons-page>
+    <ons-toolbar>
+        <div class="center">Setup your thing</div>
+    </ons-toolbar>
+    <section style="padding: 8px">
+        <div>Owner ID : {{user.getID()}}</div>
+        <div>Owner Name : {{user.getUsername()}}</div>
+        <div>Vendor Thing ID:</div>
+        <input class="text-input" ng-model="vendorThingID" type="text"/>
+        <section style="padding: 8px">
+            <ons-button ng-click="ownerRegistration(vendorThingID)">Submit</ons-button>
+        </section>
+    </section>
+</ons-page>

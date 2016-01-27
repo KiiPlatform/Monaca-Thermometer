@@ -1,0 +1,10 @@
+<ons-page>
+    <ons-toolbar>
+        <div class="center">Your thing information</div>
+    </ons-toolbar>
+    <section style="padding: 8px">
+        <div>Vendor Thing ID: {{thing.getVendorThingID()}}</div>
+        <div>Thing ID: {{thing.getThingID()}}</div>
+        <ons-button ng-click="listTemperatures()">View temperature data</ons-button>
+    </section>
+</ons-page>

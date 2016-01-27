@@ -1,0 +1,15 @@
+<ons-page>
+    <ons-toolbar>
+        <div class="center">Login/ Sign UP</div>
+    </ons-toolbar>
+    <section style="padding: 8px">
+        <div>Username:</div>
+        <input class="text-input" ng-model="loginName" type="text"/>
+        <div>Password:</div>
+        <input class="text-input" ng-model="password" type="password"/>
+        <section style="padding: 8px">
+            <ons-button ng-click="login(loginName, password)">Login</ons-button>
+            <ons-button ng-click="signup(loginName, password)">Sign Up</ons-button>
+        </section>
+    </section>
+</ons-page>
