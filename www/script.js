@@ -6,6 +6,7 @@ app.controller("AppCtrl", ["$scope", function($scope){
         console.log("ons.ready() called");
         document.addEventListener("deviceready", function(e) {
             // Kii Application info.
+            // TODO: Step1: KiiのアプリケーションのID, Key, Locationを設定しましょう。
             var appid = "77ad4dda";
             var appkey = "248c4d2e04e82105bfeb90ea17da0ff4";
             var site = KiiSite.JP;
@@ -27,6 +28,10 @@ app.controller("AppCtrl", ["$scope", function($scope){
                         labels.push("");
                     }
                 }
+                var dummydata[];
+                for (i=0; i<59; i++) {
+                    dummydata.push(i);
+                }
                 dataSets.push({
                     label: "Hourly temperatures",
                     fillColor: "rgba(220,220,220,0.2)",
@@ -35,7 +40,10 @@ app.controller("AppCtrl", ["$scope", function($scope){
                     pointStrokeColor: "#fff",
                     pointHighlightFill: "#fff",
                     pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: $scope.hourlyTemperatures
+                    // TODO: Step 7: 実際の温度データを設定しましょう。
+                    // Step 6で温度のデータの配列が$scope.hourlyTemperatures
+                    // に保持されています。
+                    data: dummydata;
                 });
                 data.labels = labels;
                 data.datasets = dataSets;
@@ -45,131 +53,63 @@ app.controller("AppCtrl", ["$scope", function($scope){
                 };
                 new Chart(ctx).Line(data, Chart.defaults.Line);            }
         });
-
     });
 
     $scope.login = function(loginName, password) {
         console.log("login with " + loginName);
-        KiiUser.authenticate(loginName, password)
-        .then(
-            function(user) {
-                $scope.user = user;
-                myNavigator.pushPage("thing-register.html");                
-            }
-        ).catch(
-            function(error) {
-                ons.notification.alert({
-                   message: 'login failed. ' + error,
-                   title: 'login',
-                   buttonLabel: 'OK',
-                   animation: 'default'
-                });                
-            }
-        );
+
+        // TODO: Step 2: Kii Cloudにログインする処理を実装しましょう。
+        // ログインが成功したら
+        // $scope.userにログインしたユーザーのインスタンスを設定し
+        // thing-register.htmlに遷移します。
+        // 失敗したらアラートを表示しましょう。
+        myNavigator.pushPage("thing-register.html");                
     };
 
     $scope.signup = function(loginName, password) {
-        var user;
-        console.log("sign up with " + loginName);
-        // TODO: distinguish type of loginName and use proper user factory method.
-        user = KiiUser.userWithUsername(loginName, password);
-        user.register()
-        .then(
-            function(user) {
-                $scope.user = user;
-                myNavigator.pushPage("thing-register.html");                
-            }
-        ).catch(
-            function(error) {
-                ons.notification.alert({
-                    message: 'login failed. ' + error,
-                    title: 'login',
-                    buttonLabel: 'OK',
-                    animation: 'default'
-                });                
-            }
-        );
+        // TODO: Step 3: Kii Cloudにサインアップする処理を実装しましょう。
+        // サインアップが成功したら
+        // $scope.user にログインしたユーザーのインスタンスを設定し
+        // thing-register.htmlに遷移します。
+        // 失敗したらアラートを表示しましょう。
+        myNavigator.pushPage("thing-register.html");                
     };
 
     $scope.ownerRegistration = function(vendorThingID) {
+        // TODO: Step 4: ユーザーをThingのオーナーとして登録しましょう。
+        // 登録が成功したら
+        // $scope.thing に登録したThingのインスタンスを設定し
+        // thing-info.htmlに遷移します。
+        // 失敗したらアラートを表示しましょう。
         var user = $scope.user;
-        KiiThing.registerOwnerWithVendorThingID(vendorThingID, user)
-        .then(
-            function(user) {
-                return KiiThing.loadWithVendorThingID(vendorThingID);
-            },
-            function(error) {
-                if (error.message.search(/.*THING_OWNERSHIP_ALREADY_EXISTS.*/) >= 0) {
-                    // The user is already registered as owner of the thing.
-                    return KiiThing.loadWithVendorThingID(vendorThingID);
-                }
-                throw error;
-            }
-        ).then(
-            function(thing){
-                $scope.thing = thing;
-                myNavigator.pushPage("thing-info.html");
-            }
-        ).catch(
-            function(error) {
-                console.log(error.message);
-                ons.notification.alert({
-                    message: 'register owner failed. ' + error,
-                    title: 'owner registration',
-                    buttonLabel: 'OK',
-                    animation: 'default'
-                });
-            }
-        );
+        myNavigator.pushPage("thing-info.html");
     };
 
     $scope.listTemperatures = function() {
-        var bucket;
-        var query;
-        bucket = $scope.thing.bucketWithName("temperatures");
-        query = KiiQuery.queryWithClause();
-        query.setLimit(24);
-        query.sortByDesc("_modified");
-        bucket.executeQuery(query)
-        .then(
-            function(params) {
-                var resultSet = params[1];
-                $scope.temperatureObjects = resultSet;
-                myNavigator.pushPage("temperatures.html");
-            }
-        ).catch(
-            function(error) {
-                ons.notification.alert({
-                    message: 'list temperatures failed. ' + error,
-                    title: 'list temperatures',
-                    buttonLabel: 'OK',
-                    animation: 'default'
-                });
-            }
-        );
+        // TODO: Step 5: Thingに保存されているオブジェクトの一覧を取得しましょう。
+        // Thingはオブジェクトに温度計から取得した温度データを書き込んでいます。
+        // Thingは一時間ごとに新しいオブジェクトを作成し、1分ごとに温度データ
+        // の書き込みを行います。
+        // 一覧の取得が成功したら、$scope.temperatureObjectsに結果を設定して
+        // temperatures.htmlに遷移します。
+        // 失敗したら、アラートを表示しましょう。
+        var thing = $scope.thing;
+        myNavigator.pushPage("temperatures.html");
     };
 
     $scope.loadTemperatures = function(kiiObject) {
-        kiiObject.refresh()
-        .then(
-            function(kiiObject) {
-                $scope.hourlyTemperaturesObject = kiiObject;
-                $scope.hourlyTemperatures = kiiObject.get("data");
-                // actual chart loading would be done in event handler of the document.
-                myNavigator.pushPage("hourly-temperatures.html");
-            }
-        ).catch(
-            function(error) {
-                ons.notification.alert({
-                    message: 'load hourly temperatures failed. ' + error,
-                    title: 'hourly temperatures',
-                    buttonLabel: 'OK',
-                    animation: 'default'
-                });                
-            }
-        );
+        // TODO: Step 6: 引数のkiiObjectを更新して最新の情報を取得しましょう。
+        // 処理が成功したら、
+        // $scope.hourlyTemperaturesObjectにkiiObjectのインスタンスを
+        // $scope.hourlyTemperaturesにkiiObject内のdataフィールドを設定します。
+        // (Thingはdataフィールドに1分ごとの温度の配列を書き込んでいます。)
+        // hourly-temperatures.htmlに遷移します。
+        // 失敗したら、アラートを表示しましょう。
+        myNavigator.pushPage("hourly-temperatures.html");
     }
 
+    // Thingがアップロードする温度オブジェクトのIDは日付の形式になっています。
+    // Javascriptでパースできる形式に変換し、読みやすい文字列を作成します。
     $scope.localTime = function (idString) {
         var date;
         var dateStr;
