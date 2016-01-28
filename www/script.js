@@ -133,7 +133,7 @@ app.controller("AppCtrl", ["$scope", function($scope){
         dateStr += ":" + idString.substring(15,17);
 
         date = new Date(dateStr);
-        return (date.getMonth() +1) + "月 " + date.getDate() + "日 " + (date.getHours() +1) + "時 ";
+        return (date.getMonth() +1) + "月 " + date.getDate() + "日 " + date.getHours() + "時 ";
     }
 
 }]);
