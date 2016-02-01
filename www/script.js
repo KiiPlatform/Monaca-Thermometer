@@ -41,8 +41,10 @@ app.controller("AppCtrl", ["$scope", function($scope){
                     pointHighlightFill: "#fff",
                     pointHighlightStroke: "rgba(220,220,220,1)",
                     // TODO: Step 7: 実際の温度データを設定しましょう。
-                    // Step 6で温度のデータの配列が$scope.hourlyTemperatures
+                    // Step 6で温度のデータを記録したKiiObjectが$scope.hourlyTemperaturesObject
                     // に保持されています。
+                    // KiiObjectのget() メソッドを利用して"data"フィールドに設定されている
+                    // 温度の配列を取り出して、dummydataと置き換えましょう。
                     data: dummydata
                 });
                 data.labels = labels;
@@ -111,10 +113,9 @@ app.controller("AppCtrl", ["$scope", function($scope){
     $scope.loadTemperatures = function(kiiObject) {
         // TODO: Step 6: 引数のkiiObjectを更新して最新の情報を取得しましょう。
         // 処理が成功したら、
-        // $scope.hourlyTemperaturesObjectにkiiObjectのインスタンスを
-        // $scope.hourlyTemperaturesにkiiObject内のdataフィールドを設定します。
-        // (Thingはdataフィールドに1分ごとの温度の配列を書き込んでいます。)
+        // $scope.hourlyTemperaturesObjectにkiiObjectのインスタンスを設定して
         // hourly-temperatures.htmlに遷移します。
+        // (ThingはKiiObjectのdataフィールドに1分ごとの温度の配列を書き込んでいます。)
         // 失敗したら、アラートを表示しましょう。
         
         $scope.hourlyTemperaturesObject = kiiObject;
