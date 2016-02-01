@@ -88,16 +88,24 @@ app.controller("AppCtrl", ["$scope", function($scope){
     };
 
     $scope.listTemperatures = function() {
+        var bucket;
+        var query;
+        bucket = $scope.thing.bucketWithName("temperatures");
+        query = KiiQuery.queryWithClause();
         // TODO: Step 5: Thingに保存されているオブジェクトの一覧を取得しましょう。
-        // Thingはオブジェクトに温度計から取得した温度データを書き込んでいます。
-        // Thingは一時間ごとに新しいオブジェクトを作成し、1分ごとに温度データ
-        // の書き込みを行います。
+        // queryの最大取得件数を24とし、更新日時の降順でソートします。
+        // setLimit(), sortByDesc() メソッドを利用します。
+        // 更新日時のフィールドは"_modified"を利用することができます。
+        //
         // 一覧の取得が成功したら、$scope.temperatureObjectsに結果を設定して
         // temperatures.htmlに遷移します。
+        // temperatures.htmlでは、取得したオブジェクトの一覧から、
+        // オブジェクトの作成日時をIDから取り出して、
+        // リストに表示するようになっています。
         // 失敗したら、アラートを表示しましょう。
-        var thing = $scope.thing;
         
-        // ダミーデータ作成。この処理は削除します。
+        // ダミーデータ作成。この処理は削除して取得したオブジェクトの配列を
+        // temperatureObjectsに設定します。
         dummyObjects = [];
         dummyObject = {}
         dummyObject.getUUID = function() {
@@ -115,7 +123,6 @@ app.controller("AppCtrl", ["$scope", function($scope){
         // 処理が成功したら、
         // $scope.hourlyTemperaturesObjectにkiiObjectのインスタンスを設定して
         // hourly-temperatures.htmlに遷移します。
-        // (ThingはKiiObjectのdataフィールドに1分ごとの温度の配列を書き込んでいます。)
         // 失敗したら、アラートを表示しましょう。
         
         $scope.hourlyTemperaturesObject = kiiObject;
