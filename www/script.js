@@ -35,7 +35,7 @@ app.controller("AppCtrl", ["$scope", function($scope){
                     pointStrokeColor: "#fff",
                     pointHighlightFill: "#fff",
                     pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: $scope.hourlyTemperaturesObject.get("data");
+                    data: $scope.hourlyTemperaturesObject.get("data")
                 });
                 data.labels = labels;
                 data.datasets = dataSets;
