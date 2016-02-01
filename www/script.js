@@ -35,7 +35,7 @@ app.controller("AppCtrl", ["$scope", function($scope){
                     pointStrokeColor: "#fff",
                     pointHighlightFill: "#fff",
                     pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: $scope.hourlyTemperatures
+                    data: $scope.hourlyTemperaturesObject.get("data");
                 });
                 data.labels = labels;
                 data.datasets = dataSets;
@@ -154,7 +154,6 @@ app.controller("AppCtrl", ["$scope", function($scope){
         .then(
             function(kiiObject) {
                 $scope.hourlyTemperaturesObject = kiiObject;
-                $scope.hourlyTemperatures = kiiObject.get("data");
                 // actual chart loading would be done in event handler of the document.
                 myNavigator.pushPage("hourly-temperatures.html");
             }
