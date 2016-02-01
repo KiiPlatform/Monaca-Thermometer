@@ -50,22 +50,20 @@ app.controller("AppCtrl", ["$scope", function($scope){
 
     $scope.login = function(loginName, password) {
         console.log("login with " + loginName);
-        KiiUser.authenticate(loginName, password)
-        .then(
-            function(user) {
+        KiiUser.authenticate(loginName, password, {
+            success: function(user) {
                 $scope.user = user;
-                myNavigator.pushPage("thing-register.html");                
-            }
-        ).catch(
-            function(error) {
+                myNavigator.pushPage("thing-register.html");
+            },
+            failure: function(user, error) {
                 ons.notification.alert({
                    message: 'login failed. ' + error,
                    title: 'login',
                    buttonLabel: 'OK',
                    animation: 'default'
-                });                
+                });           
             }
-        );
+        });
     };
 
     $scope.signup = function(loginName, password) {
@@ -73,54 +71,60 @@ app.controller("AppCtrl", ["$scope", function($scope){
         console.log("sign up with " + loginName);
         // TODO: distinguish type of loginName and use proper user factory method.
         user = KiiUser.userWithUsername(loginName, password);
-        user.register()
-        .then(
-            function(user) {
+        user.register({
+            success: function(user) {
                 $scope.user = user;
-                myNavigator.pushPage("thing-register.html");                
-            }
-        ).catch(
-            function(error) {
-                ons.notification.alert({
-                    message: 'login failed. ' + error,
-                    title: 'login',
-                    buttonLabel: 'OK',
-                    animation: 'default'
-                });                
-            }
-        );
-    };
-
-    $scope.ownerRegistration = function(vendorThingID) {
-        var user = $scope.user;
-        KiiThing.registerOwnerWithVendorThingID(vendorThingID, user)
-        .then(
-            function(user) {
-                return KiiThing.loadWithVendorThingID(vendorThingID);
+                myNavigator.pushPage("thing-register.html");
             },
-            function(error) {
-                if (error.message.search(/.*THING_OWNERSHIP_ALREADY_EXISTS.*/) >= 0) {
-                    // The user is already registered as owner of the thing.
-                    return KiiThing.loadWithVendorThingID(vendorThingID);
-                }
-                throw error;
-            }
-        ).then(
-            function(thing){
-                $scope.thing = thing;
-                myNavigator.pushPage("thing-info.html");
-            }
-        ).catch(
-            function(error) {
-                console.log(error.message);
+            failure: function(user, error) {
                 ons.notification.alert({
-                    message: 'register owner failed. ' + error,
-                    title: 'owner registration',
+                    message: 'Sign up failed. ' + error,
+                    title: 'Sign up',
                     buttonLabel: 'OK',
                     animation: 'default'
                 });
             }
-        );
+        });
+    };
+
+    $scope.ownerRegistration = function(vendorThingID) {
+        var user = $scope.user;
+        var succeededCallback = function() {
+            KiiThing.loadWithVendorThingID(vendorThingID, {
+                success: function(thing) {
+                    $scope.thing = thing;
+                    myNavigator.pushPage("thing-info.html");
+                },
+                failure: function(error) {
+                    ons.notification.alert({
+                        message: 'load thing failed. ' + error,
+                        title: 'owner registration',
+                        buttonLabel: 'OK',
+                        animation: 'default'
+                    });
+                }
+            });
+        };
+
+        KiiThing.registerOwnerWithVendorThingID(vendorThingID, user, {
+            success: function(user) {
+                succeededCallback();
+            },
+            failure: function(error) {
+                console.log(error.message);
+                if (error.message.search(/.*THING_OWNERSHIP_ALREADY_EXISTS.*/) >= 0) {
+                    succeededCallback();
+                } else {
+                    ons.notification.alert({
+                        message: 'register owner failed. ' + error,
+                        title: 'owner registration',
+                        buttonLabel: 'OK',
+                        animation: 'default'
+                    });
+                }
+            }
+        });
+
     };
 
     $scope.listTemperatures = function() {
@@ -130,15 +134,13 @@ app.controller("AppCtrl", ["$scope", function($scope){
         query = KiiQuery.queryWithClause();
         query.setLimit(24);
         query.sortByDesc("_modified");
-        bucket.executeQuery(query)
-        .then(
-            function(params) {
-                var resultSet = params[1];
+        
+        bucket.executeQuery(query, {
+            success: function(query, resultSet, nextQuery) {
                 $scope.temperatureObjects = resultSet;
-                myNavigator.pushPage("temperatures.html");
-            }
-        ).catch(
-            function(error) {
+                myNavigator.pushPage("temperatures.html");                
+            },
+            failure: function(query, error) {
                 ons.notification.alert({
                     message: 'list temperatures failed. ' + error,
                     title: 'list temperatures',
@@ -146,27 +148,26 @@ app.controller("AppCtrl", ["$scope", function($scope){
                     animation: 'default'
                 });
             }
-        );
+        });
     };
 
     $scope.loadTemperatures = function(kiiObject) {
-        kiiObject.refresh()
-        .then(
-            function(kiiObject) {
+        kiiObject.refresh({
+            success: function(kiiObject) {
                 $scope.hourlyTemperaturesObject = kiiObject;
                 // actual chart loading would be done in event handler of the document.
                 myNavigator.pushPage("hourly-temperatures.html");
-            }
-        ).catch(
-            function(error) {
+            },
+            failure: function(kiiObject, error) {
                 ons.notification.alert({
                     message: 'load hourly temperatures failed. ' + error,
                     title: 'hourly temperatures',
                     buttonLabel: 'OK',
                     animation: 'default'
-                });                
+                });
             }
-        );
+        });
+
     }
 
     $scope.localTime = function (idString) {
