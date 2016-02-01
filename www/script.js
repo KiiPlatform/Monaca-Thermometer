@@ -60,7 +60,7 @@ app.controller("AppCtrl", ["$scope", function($scope){
     $scope.login = function(loginName, password) {
         console.log("login with " + loginName);
 
-        // TODO: Step 2: Kii Cloudにログインする処理を実装しましょう。
+        // TODO: Step 3: Kii Cloudにログインする処理を実装しましょう。
         // ログインが成功したら
         // $scope.userにログインしたユーザーのインスタンスを設定し
         // thing-register.htmlに遷移します。
@@ -69,7 +69,7 @@ app.controller("AppCtrl", ["$scope", function($scope){
     };
 
     $scope.signup = function(loginName, password) {
-        // TODO: Step 3: Kii Cloudにサインアップする処理を実装しましょう。
+        // TODO: Step 2: Kii Cloudにサインアップする処理を実装しましょう。
         // サインアップが成功したら
         // $scope.user にログインしたユーザーのインスタンスを設定し
         // thing-register.htmlに遷移します。
