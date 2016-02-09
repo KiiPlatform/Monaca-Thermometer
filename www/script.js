@@ -82,8 +82,8 @@ app.controller("AppCtrl", ["$scope", function($scope){
         ).catch(
             function(error) {
                 ons.notification.alert({
-                    message: 'login failed. ' + error,
-                    title: 'login',
+                    message: 'signup failed. ' + error,
+                    title: 'signup',
                     buttonLabel: 'OK',
                     animation: 'default'
                 });                
